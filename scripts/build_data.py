@@ -7,6 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from copilot.attack import TECHNIQUES_PATH, build_technique_index
 from copilot.db import DATA_DIR, DB_PATH, connect, create_events_db
 from copilot.normalize import normalize_records
 from copilot.rules import generate_alerts, save_alerts
@@ -58,6 +59,17 @@ def build_alerts() -> None:
     print(f"{len(alerts)} alerts written")
 
 
+ATTACK_URL = "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json"
+
+
+def build_attack() -> None:
+    bundle = json.loads(fetch(ATTACK_URL, RAW_DIR / "enterprise-attack.json").read_text(encoding="utf-8"))
+    index = build_technique_index(bundle)
+    TECHNIQUES_PATH.write_text(json.dumps(index), encoding="utf-8")
+    print(f"{len(index)} ATT&CK techniques written")
+
+
 if __name__ == "__main__":
     build_events()
     build_alerts()
+    build_attack()
