@@ -9,7 +9,15 @@ import openai
 
 
 class LLMUnavailable(RuntimeError):
-    """The provider could not answer: rate limit, outage, bad key or rejected request."""
+    """The provider could not answer right now: rate limit, outage, timeout or bad key."""
+
+
+class LLMRejected(RuntimeError):
+    """The provider refused this request, e.g. context too long or a malformed tool call."""
+
+
+_UNAVAILABLE = (openai.RateLimitError, openai.APIConnectionError, openai.InternalServerError,
+                openai.AuthenticationError, openai.PermissionDeniedError)
 
 
 @dataclass
@@ -40,8 +48,12 @@ class OpenAICompatLLM:
         try:
             response = self.client.chat.completions.create(
                 model=self.model, messages=messages, tools=tools, tool_choice=tool_choice, temperature=0)
-        except openai.OpenAIError as exc:
+        except _UNAVAILABLE as exc:
             raise LLMUnavailable(str(exc)) from exc
+        except openai.OpenAIError as exc:
+            raise LLMRejected(str(exc)) from exc
+        if not getattr(response, "choices", None):
+            raise LLMUnavailable("the provider returned no choices")
         message = response.choices[0].message
         calls = []
         for call in message.tool_calls or []:
@@ -54,13 +66,15 @@ class OpenAICompatLLM:
                 arguments = None
             calls.append(ToolCall(call.id, call.function.name, arguments, raw))
         usage = response.usage
+        # Dumped whole so provider-specific fields on tool calls survive the round trip.
+        dumped = message.model_dump(exclude_none=True)
+        dumped.setdefault("content", "")  # endpoints reject an assistant turn with no content
         return Turn(
             content=message.content,
             tool_calls=calls,
             input_tokens=usage.prompt_tokens if usage else 0,
             output_tokens=usage.completion_tokens if usage else 0,
-            # Dumped whole so provider-specific fields on tool calls survive the round trip.
-            message=message.model_dump(exclude_none=True),
+            message=dumped,
         )
 
 

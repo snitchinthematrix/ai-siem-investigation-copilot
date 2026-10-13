@@ -3,6 +3,7 @@ import json
 
 import streamlit as st
 
+from copilot.render import plain
 from copilot.scoring import METRIC_ROWS, RESULTS_PATH
 
 st.set_page_config(page_title="Scorecard", layout="wide")
@@ -16,7 +17,7 @@ results = json.loads(RESULTS_PATH.read_text(encoding="utf-8"))
 agent, base = results["agent"], results["baseline"]
 synthetic = sum(case["source"] == "synthetic" for case in agent["cases"])
 
-st.caption(f"{agent['summary']['n']} labeled alerts ({synthetic} from hand-written synthetic scenarios) · "
+st.caption(f"{agent['summary']['n']} of {agent['summary']['labeled']} labeled alerts scored ({synthetic} from hand-written synthetic scenarios) · "
            f"model {results['model']} · generated {results['generated']}")
 
 st.table([{"Metric": name, "Agent (with tools)": fmt(agent["summary"]), "Baseline (alert only)": fmt(base["summary"])}
@@ -26,7 +27,7 @@ failures = [case for case in agent["cases"] if not case["verdict_correct"]]
 st.subheader(f"Agent failures ({len(failures)})")
 if failures:
     st.table([{"alert": c["alert_id"], "expected": c["expected"], "got": c["got"],
-               "source": c["source"], "error": c["error"] or ""} for c in failures])
+               "source": c["source"], "error": plain(c["error"])} for c in failures])
 else:
     st.write("None on this set.")
 

@@ -7,6 +7,7 @@ import streamlit as st
 from copilot.agent import investigate
 from copilot.db import connect
 from copilot.llm import llm_from_env
+from copilot.render import plain, report
 from copilot.rules import load_alerts
 from copilot.runs import load_run, resolve_live_result
 from copilot.scoring import load_labels
@@ -24,14 +25,9 @@ def shared_connection():
     return connect()
 
 
-def safe(text: str) -> str:
-    """Model output may echo attacker-written log text; never let it load remote images."""
-    return text.replace("![", "!\\[")
-
-
 def render_step(step) -> None:
     if step.kind == "error":
-        st.warning(f"Rejected verdict: {step.message}")
+        st.warning(f"Rejected verdict: {plain(step.message)}")
         return
     arguments = ", ".join(f"{key}={value!r}" for key, value in (step.arguments or {}).items())
     result = step.result or {}
@@ -41,7 +37,7 @@ def render_step(step) -> None:
         outcome = f"{result['total_matches']} matches"
     else:
         outcome = "done"
-    with st.expander(f"{step.tool}({arguments})"[:110] + f" -> {outcome}"):
+    with st.expander(plain(f"{step.tool}({arguments})"[:110] + f" -> {outcome}")):
         st.json(result)
 
 
@@ -54,26 +50,27 @@ def render_verdict(record, label) -> None:
     columns[2].metric("Severity", verdict.severity)
     columns[3].metric("Valid citations", f"{citations.valid}/{citations.cited}")
     if unverified:
-        st.error("Unverified citations: " + ", ".join(sorted(unverified))
+        st.error("Unverified citations: " + plain(", ".join(sorted(unverified)))
                  + ". These event IDs do not exist or were never retrieved during the run.")
     if citations.uncited_claims:
         st.warning(f"{citations.uncited_claims} evidence claim(s) cite no events.")
-    st.write("**ATT&CK techniques:** " + (", ".join(verdict.techniques) or "none"))
+    st.write("**ATT&CK techniques:** " + (plain(", ".join(verdict.techniques)) or "none"))
 
     st.subheader("Evidence")
     for item in verdict.evidence:
         ids = ", ".join(f"{i} (unverified)" if i in unverified else i for i in item.event_ids) or "no citation"
-        st.markdown(f"- {safe(item.claim)}  \n  `{ids}`")
+        st.markdown(f"- {plain(item.claim)}  \n  {plain(ids)}")
     if verdict.timeline:
         st.subheader("Timeline")
-        st.table([{"time": entry.ts, "what happened": entry.description, "events": ", ".join(entry.event_ids)}
+        st.table([{"time": plain(entry.ts), "what happened": plain(entry.description),
+                   "events": plain(", ".join(entry.event_ids))}
                   for entry in verdict.timeline])
     if verdict.next_actions:
         st.subheader("Recommended next actions")
         for action in verdict.next_actions:
-            st.markdown(f"- {safe(action)}")
+            st.markdown(f"- {plain(action)}")
     st.subheader("Incident report")
-    st.markdown(safe(verdict.report_md))
+    st.markdown(report(verdict.report_md))
 
     usage = record.usage
     st.caption(f"{record.model} · {usage.tool_calls} tool calls · "
@@ -93,7 +90,7 @@ def show(record, label, animate: bool) -> None:
     if record.verdict:
         render_verdict(record, label)
     else:
-        st.error(f"The run ended without a verdict: {record.error}")
+        st.error(f"The run ended without a verdict: {plain(record.error)}")
 
 
 alerts = sorted(load_alerts(), key=lambda a: (SEVERITY_ORDER.get(a.severity, 9), a.id))
@@ -123,7 +120,7 @@ label = labels.get(alert.id)
 recorded = load_run(alert.id)
 
 st.subheader(f"{alert.id}: {alert.title}")
-st.write(alert.summary)
+st.text(alert.summary)  # raw log text: shown literally, never as Markdown
 st.caption(f"Host {alert.host} · first seen {alert.ts} UTC · {alert.event_count} matching event(s) · "
            f"triggers {', '.join(alert.trigger_event_ids)}")
 
@@ -138,7 +135,7 @@ if mode == LIVE and live_available:
         progress.empty()
     record, notice = resolve_live_result(live_results.get(alert.id), recorded)
     if notice:
-        st.warning(notice)
+        st.warning(plain(notice))
     if record is None:
         st.info("Press Investigate live to run the agent on this alert now.")
     else:

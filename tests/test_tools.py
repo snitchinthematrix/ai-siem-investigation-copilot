@@ -108,3 +108,10 @@ def test_collect_event_ids_walks_nested_results(conn):
 def test_tool_specs_name_the_four_tools():
     assert [s["function"]["name"] for s in TOOL_SPECS] == [
         "search_events", "get_process_tree", "get_entity_activity", "lookup_attack_technique"]
+
+
+def test_run_tool_survives_out_of_range_arguments(conn):
+    assert "error" in run_tool(conn, "get_entity_activity",
+                               {"entity_type": "host", "value": "workstation8", "around": "0001-01-01 00:00:00"})
+    assert "error" in run_tool(conn, "search_events", {"host": "workstation8", "limit": 1e999})
+    assert "error" in run_tool(conn, "search_events", {"event_code": 2 ** 200})

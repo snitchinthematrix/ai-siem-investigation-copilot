@@ -3,7 +3,7 @@ from copilot.schema import RunRecord, Verdict
 
 
 def record(error=None, verdict=True, mode="agent"):
-    v = Verdict(verdict="true_positive", confidence=1, severity="high", evidence=[], report_md="r") if verdict else None
+    v = Verdict(verdict="true_positive", confidence=1, severity="high", evidence=[{"claim": "c", "event_ids": []}], report_md="r") if verdict else None
     return RunRecord(alert_id="R001-abc", mode=mode, model="m", verdict=v, error=error)
 
 

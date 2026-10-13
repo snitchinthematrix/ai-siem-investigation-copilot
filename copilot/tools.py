@@ -172,7 +172,7 @@ def run_tool(conn, name: str, arguments: dict) -> dict:
         return {"error": f"unknown tool {name!r}. Available: {', '.join(TOOLS)}, submit_verdict"}
     try:
         return TOOLS[name](conn, **arguments)
-    except (TypeError, ValueError) as exc:
+    except Exception as exc:  # model-supplied arguments must never crash a run
         return {"error": f"{name}: {exc}"}
 
 

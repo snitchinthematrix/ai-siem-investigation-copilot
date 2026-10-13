@@ -102,3 +102,17 @@ def test_baseline_makes_one_call_with_no_investigation_tools(conn, alert):
 def test_baseline_records_invalid_output_and_provider_failure(conn, alert):
     assert "valid verdict" in baseline(alert, conn, FakeLLM([turn(("submit_verdict", {"verdict": "maybe"}))])).error
     assert baseline(alert, conn, FakeLLM([LLMUnavailable("down")])).error.startswith("LLM unavailable")
+
+
+def test_a_rejected_request_ends_the_run_as_a_failure_not_an_outage(conn, alert):
+    from copilot.llm import LLMRejected
+    record = investigate(alert, conn, FakeLLM([turn(SEARCH), LLMRejected("400 context length")]))
+    assert record.verdict is None
+    assert record.error.startswith("LLM rejected") and not record.error.startswith("LLM unavailable")
+    assert baseline(alert, conn, FakeLLM([LLMRejected("400")])).error.startswith("LLM rejected")
+
+
+def test_both_prompts_treat_the_alert_and_tool_results_as_untrusted():
+    from copilot.agent import BASELINE_PROMPT, UNTRUSTED_RULE
+    assert "alert" in UNTRUSTED_RULE and "tool result" in UNTRUSTED_RULE
+    assert UNTRUSTED_RULE in SYSTEM_PROMPT and UNTRUSTED_RULE in BASELINE_PROMPT

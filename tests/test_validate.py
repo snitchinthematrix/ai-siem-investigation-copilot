@@ -42,3 +42,8 @@ def test_verdict_rejects_unknown_values():
         Verdict(verdict="maybe", confidence=0.5, severity="high", evidence=[], report_md="")
     with pytest.raises(ValidationError):
         Verdict(verdict="true_positive", confidence=1.7, severity="high", evidence=[], report_md="")
+
+
+def test_verdict_needs_at_least_one_evidence_item():
+    with pytest.raises(ValidationError):
+        Verdict(verdict="true_positive", confidence=0.5, severity="high", evidence=[], report_md="r")

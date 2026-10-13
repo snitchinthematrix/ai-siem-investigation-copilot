@@ -35,7 +35,7 @@ class Verdict(BaseModel):
     severity: Literal["informational", "low", "medium", "high", "critical"]
     techniques: list[str] = []
     timeline: list[TimelineEntry] = []
-    evidence: list[EvidenceItem]
+    evidence: list[EvidenceItem] = Field(min_length=1)
     next_actions: list[str] = []
     report_md: str
 

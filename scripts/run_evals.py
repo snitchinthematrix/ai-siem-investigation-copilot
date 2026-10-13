@@ -23,7 +23,7 @@ def write_results(labels: dict) -> dict:
     for mode in RUNNERS:
         records = [(alert_id, load_run(alert_id, mode)) for alert_id in labels]
         cases = [score_run(record, labels[alert_id]) for alert_id, record in records if record]
-        results[mode] = {"summary": summarize(cases), "cases": cases}
+        results[mode] = {"summary": summarize(cases, labeled=len(labels)), "cases": cases}
         results["model"] = next((record.model for _, record in records if record), results["model"])
     RESULTS_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
     return results
@@ -62,7 +62,12 @@ def main() -> int:
                 got = record.verdict.verdict if record.verdict else f"no verdict ({record.error})"
                 print(f"{alert_id} {mode}: {got}, expected {labels[alert_id]['verdict']}")
                 time.sleep(args.sleep)
-    print(results_table(write_results(labels)))
+    results = write_results(labels)
+    print(results_table(results))
+    missing = {mode: len(labels) - results[mode]["summary"]["n"] for mode in RUNNERS}
+    if any(missing.values()):
+        print(f"INCOMPLETE: alerts not yet run - {missing}. Do not publish these numbers.")
+        return 1
     return 0
 
 

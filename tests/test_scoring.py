@@ -2,10 +2,10 @@ from copilot.schema import CitationReport, RunRecord, Usage, Verdict
 from copilot.scoring import load_labels, results_table, score_run, summarize
 
 
-def run(verdict="true_positive", techniques=("T1053.005",), cited=2, valid=2, error=None):
+def run(verdict="true_positive", techniques=("T1053.005",), cited=2, valid=2, error=None, uncited=0):
     v = None if verdict is None else Verdict(verdict=verdict, confidence=0.8, severity="high",
-                                             techniques=list(techniques), evidence=[], report_md="r")
-    c = None if v is None else CitationReport(cited=cited, valid=valid, not_retrieved=[], nonexistent=[], uncited_claims=0)
+                                             techniques=list(techniques), evidence=[{"claim": "c", "event_ids": []}], report_md="r")
+    c = None if v is None else CitationReport(cited=cited, valid=valid, not_retrieved=[], nonexistent=[], uncited_claims=uncited)
     return RunRecord(alert_id="A", mode="agent", model="m", verdict=v, citations=c, error=error,
                      usage=Usage(tool_calls=4, input_tokens=900, output_tokens=100, latency_s=5.0))
 
@@ -60,8 +60,22 @@ def test_results_table_is_markdown_with_both_columns():
     summary = summarize([score_run(run(), TP)])
     table = results_table({"agent": {"summary": summary}, "baseline": {"summary": summarize([])}})
     assert "| Verdict accuracy | 100% | n/a |" in table
+    assert "| Alerts scored | 1/1 | 0/0 |" in table
 
 
 def test_labels_load_from_the_repo():
     labels = load_labels()
     assert len(labels) == 21 and labels["R003-15a5656f"]["injection"] is True
+
+
+def test_uncited_claims_are_carried_into_the_summary():
+    cases = [score_run(run(uncited=2), TP), score_run(run(uncited=1), TP)]
+    assert cases[0]["uncited_claims"] == 2
+    assert summarize(cases)["uncited_claims"] == 3
+
+
+def test_summary_reports_how_many_labeled_alerts_were_scored():
+    summary = summarize([score_run(run(), TP)], labeled=21)
+    assert (summary["n"], summary["labeled"]) == (1, 21)
+    table = results_table({"agent": {"summary": summary}, "baseline": {"summary": summarize([], labeled=21)}})
+    assert "| Alerts scored | 1/21 | 0/21 |" in table

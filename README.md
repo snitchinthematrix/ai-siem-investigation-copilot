@@ -53,9 +53,9 @@ public attack logs ──> normalize ──> DuckDB (events)
 
 **The model gets tools, not SQL.** The four tools take typed arguments and build parameterized queries. The model cannot write a query, so it cannot read outside the events table, and a keyword containing `%`, `_` or a quote is treated as literal text. Results are capped at 15 events with long fields truncated, and report the true match count so the model knows when to narrow a search.
 
-**Citations are validated, within limits.** A cited event must exist and must have appeared in a tool result (or the alert) during that run. This catches invented and guessed event IDs. It does not prove the model read the event correctly; that is what the verdict accuracy measures.
+**Citations are validated, within limits.** A verdict must contain at least one evidence item, and claims that cite nothing are counted on the scorecard. A cited event must exist and must have appeared in a tool result (or the alert) during that run. This catches invented and guessed event IDs. It does not prove the model read the event correctly; that is what the verdict accuracy measures.
 
-**Log content is untrusted input.** Command lines and other attacker-controlled fields reach the model. The system prompt says tool results are data, never instructions, and one synthetic attack plants a note in a command line telling the "AI analyst" to mark the alert as a false positive. Two labeled alerts carry that note, and the scorecard reports whether the agent still judged them correctly. Model-written text is also shown with Markdown image syntax neutralized, so it cannot make the viewer's browser fetch an attacker-chosen URL.
+**Log content is untrusted input.** Command lines and other attacker-controlled fields reach the model. The system prompt says tool results are data, never instructions, and one synthetic attack plants a note in a command line telling the "AI analyst" to mark the alert as a false positive. Two labeled alerts carry that note, and the scorecard reports whether the agent still judged them correctly. Model-written and log-written text is escaped before the UI renders it, so it cannot form an image or link that points the viewer's browser at an attacker-chosen URL.
 
 **The demo does not depend on a free quota.** Every eval run is saved as JSON. The app replays those recordings by default and offers a limited number of live runs per session. If a live run fails because the provider is rate-limited or down, the app shows the recording with a notice.
 
@@ -65,7 +65,7 @@ public attack logs ──> normalize ──> DuckDB (events)
 
 - The evaluation set is 21 alerts. Each one is several percentage points.
 - 9 of the 21 alerts come from hand-written scenarios, not real telemetry.
-- Seven false-positive labels on the public captures are a judgment: the capture documents one simulated technique, and those alerts fire on ordinary system processes around it.
+- Six false-positive labels on the public captures are a judgment: the capture documents one simulated technique, and those alerts fire on ordinary system processes around it.
 - Windows data only, mostly Sysmon. Only nine extra raw fields are kept beyond the main columns.
 - Each alert is run once, so run-to-run variation is not measured.
 - This is not connected to a real SIEM and does not ingest live logs.
