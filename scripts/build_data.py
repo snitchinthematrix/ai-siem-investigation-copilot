@@ -7,8 +7,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from copilot.db import DATA_DIR, DB_PATH, create_events_db
+from copilot.db import DATA_DIR, DB_PATH, connect, create_events_db
 from copilot.normalize import normalize_records
+from copilot.rules import generate_alerts, save_alerts
 from copilot.synthetic import SYNTHETIC_RECORDS
 
 RAW_DIR = DATA_DIR / "raw"
@@ -49,5 +50,14 @@ def build_events() -> None:
     create_events_db(DB_PATH, rows).close()
 
 
+def build_alerts() -> None:
+    conn = connect()
+    alerts = generate_alerts(conn)
+    conn.close()
+    save_alerts(alerts)
+    print(f"{len(alerts)} alerts written")
+
+
 if __name__ == "__main__":
     build_events()
+    build_alerts()

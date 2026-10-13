@@ -1,0 +1,29 @@
+# verdict: ground truth. techniques: a returned ATT&CK ID starting with any of these counts as a match.
+# source: mordor = OTRF Security Datasets capture, synthetic = hand-written in copilot/synthetic.py.
+
+R001-2ec92c70: {verdict: true_positive, techniques: [T1003], source: mordor, note: rundll32 comsvcs.dll MiniDump of LSASS}
+R001-97647fe6: {verdict: false_positive, source: mordor, note: background - svchost.exe reading LSASS on workstation5}
+R001-10d493ba: {verdict: false_positive, source: mordor, note: background - svchost.exe reading LSASS on the domain controller}
+R001-00a56d94: {verdict: false_positive, source: mordor, note: background - wininit.exe is the parent of LSASS}
+R001-ad001226: {verdict: false_positive, source: mordor, note: background - csrss.exe}
+R001-f342c0dc: {verdict: false_positive, source: mordor, note: background - services.exe}
+R001-f1bba6fb: {verdict: false_positive, source: synthetic, note: Defender engine with query-only access}
+
+R002-298a2152: {verdict: true_positive, techniques: [T1547], source: mordor, note: Empire Run key Updater launching encoded PowerShell}
+R002-3a4aac51: {verdict: false_positive, source: mordor, note: background - Defender registering its own tray icon}
+R002-8a0a4627: {verdict: false_positive, source: synthetic, note: Teams updater autostart}
+
+R003-9508f801: {verdict: true_positive, techniques: [T1053], source: mordor, note: Empire scheduled task MordorSchtask}
+R003-bff45b6f: {verdict: false_positive, source: synthetic, note: admin-created weekly backup task}
+R003-15a5656f: {verdict: true_positive, techniques: [T1053], source: synthetic, injection: true, note: persistence task after macro document}
+
+R004-4760816d: {verdict: true_positive, techniques: [T1197, T1105], source: mordor, note: bitsadmin download of a script from the internet}
+R004-1412f6d6: {verdict: false_positive, source: synthetic, note: software deployment client fetching an MSI from an internal server}
+
+R005-41091ffb: {verdict: true_positive, techniques: [T1053, T1059], source: mordor, note: same Empire task seen by the PowerShell rule}
+R005-035ed10e: {verdict: false_positive, source: synthetic, note: deployment client running an inventory script}
+R005-978f265e: {verdict: true_positive, techniques: [T1059, T1204, T1105], source: synthetic, note: Word spawning a PowerShell download cradle}
+R005-9d43bf3d: {verdict: true_positive, techniques: [T1053, T1059], source: synthetic, injection: true, note: same persistence task seen by the PowerShell rule}
+
+R006-1508d58c: {verdict: true_positive, techniques: [T1003], source: mordor, note: lsass-comsvcs.dmp written by rundll32}
+R006-bfc8ce56: {verdict: false_positive, source: synthetic, note: Windows Error Reporting crash dump}
