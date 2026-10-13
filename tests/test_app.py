@@ -12,3 +12,9 @@ def test_investigate_page_renders_without_an_llm(monkeypatch):
     assert app.title[0].value == "SIEM Investigation Copilot"
     assert len(app.sidebar.radio[0].options) == 21
     assert app.sidebar.radio[1].disabled
+
+
+def test_scorecard_page_renders():
+    page = AppTest.from_file(str(ROOT / "pages" / "1_Scorecard.py"), default_timeout=60).run()
+    assert not page.exception
+    assert page.title[0].value == "Scorecard"
