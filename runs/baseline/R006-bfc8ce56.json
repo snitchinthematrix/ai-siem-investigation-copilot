@@ -1,0 +1,48 @@
+{
+  "alert_id": "R006-bfc8ce56",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-11-02T13:00:02Z",
+        "description": "Memory dump file created at C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER4F2A.tmp.dmp on workstation7",
+        "event_ids": [
+          "E042485"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "A memory dump file was created at C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER4F2A.tmp.dmp by Windows Error Reporting (WER) on workstation7.",
+        "event_ids": [
+          "E042485"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Review Windows Error Reporting logs or application crash logs to determine why the process dumped memory."
+    ],
+    "report_md": "### Incident Report: Memory Dump File Created (R006-bfc8ce56)\n\n**Summary:**\nAn alert was triggered on `workstation7` regarding the creation of a memory dump file (`C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER4F2A.tmp.dmp`). This file path is standard for Windows Error Reporting (WER) when an application crashes or generates a diagnostic dump.\n\n**Timeline:**\n- 2020-11-02 13:00:02 (UTC): Memory dump file created (`E042485`).\n\n**Verdict:**\nFalse Positive / Informational system activity. The file location indicates standard Windows Error Reporting activity rather than malicious credential dumping (such as LSASS dumping via ProcDump or comsvcs.dll)."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 663,
+    "output_tokens": 382,
+    "latency_s": 2.12
+  },
+  "error": null
+}

@@ -1,0 +1,50 @@
+{
+  "alert_id": "R004-4760816d",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "medium",
+    "techniques": [
+      "T1197"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-10-23T06:36:43Z",
+        "description": "BITS transfer job started via bitsadmin.exe downloading a file from GitHub to C:\\Users\\wardog\\AppData\\Local\\Temp\\bitsadmin1_flag.ps1",
+        "event_ids": [
+          "E042103"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "BITS job created via bitsadmin to download a file from GitHub (Atomic Red Team repository) to a local temp folder",
+        "event_ids": [
+          "E042103"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate or investigate workstation5 for potential adversary emulation or unauthorized BITS activity"
+    ],
+    "report_md": "### Incident Report: BITS Transfer Job Started (T1197)\n\n**Verdict:** True Positive  \n**Severity:** Medium  \n**Techniques:** T1197 (BITS Jobs)  \n\n#### Summary\n`bitsadmin.exe` was used on `workstation5` to create a BITS transfer job (`E042103`) downloading `T1197.md` from the public Atomic Red Team GitHub repository to `C:\\Users\\wardog\\AppData\\Local\\Temp\\bitsadmin1_flag.ps1`. This indicates potential adversary emulation activity or unauthorized file staging.\n\n#### Timeline\n- **2020-10-23 06:36:43 UTC**: BITS transfer job initiated via `bitsadmin.exe` (`E042103`)."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 716,
+    "output_tokens": 377,
+    "latency_s": 1.57
+  },
+  "error": null
+}

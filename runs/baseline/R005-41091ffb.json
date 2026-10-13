@@ -1,0 +1,53 @@
+{
+  "alert_id": "R005-41091ffb",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1059.001",
+      "T1562"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-09-21T07:15:45Z",
+        "description": "schtasks.exe creates MordorSchtask scheduled task executing hidden, encoded PowerShell command reading from registry debug value.",
+        "event_ids": [
+          "E040898"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Scheduled task creation running an obfuscated PowerShell encoded command with hidden window.",
+        "event_ids": [
+          "E040898"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation5",
+      "Examine registry key HKCU\\Software\\Microsoft\\Windows\\CurrentVersion for debug value",
+      "Identify payload executed by IEX from Base64 string"
+    ],
+    "report_md": "### Incident Report: PowerShell Hidden Window or Encoded Command\n\n**Verdicts:** True Positive  \n**Severity:** High  \n**Host:** workstation5  \n**Techniques:** T1059.001 (PowerShell), T1562 (Scheduled Task / Defense Evasion)\n\n#### Summary\nAn alert fired on `workstation5` for a PowerShell execution with a hidden window (`-W hidden`) and encoded command (`IEX ([Text.Encoding]::UNICODE.GetString([Convert]::FromBase64String(...)))`). The command was executed via Windows Task Scheduler (`schtasks.exe`), creating a daily persistence mechanism named `MordorSchtask` that retrieves and executes a Base64-encoded payload stored in the registry (`HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion`).\n\n#### Timeline\n- **2020-09-21 07:15:45 (UTC):** `schtasks.exe` creates scheduled task `MordorSchtask` executing hidden, encoded PowerShell command (Event `E040898`).\n\n#### Recommended Next Actions\n1. Isolate `workstation5` from the network.\n2. Inspect registry key `HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion` for the `debug` value.\n3. Decode the Base64 payload to determine the scope of compromise."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 749,
+    "output_tokens": 503,
+    "latency_s": 2.22
+  },
+  "error": null
+}

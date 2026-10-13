@@ -1,0 +1,168 @@
+{
+  "alert_id": "R005-035ed10e",
+  "mode": "agent",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "event_code": 1,
+        "host": "workstation7",
+        "start": "2020-11-02 10:50:00",
+        "keyword": "inventory-hardware.ps1"
+      },
+      "result": {
+        "total_matches": 1,
+        "returned": 1,
+        "truncated": false,
+        "events": [
+          {
+            "event_id": "E042481",
+            "ts": "2020-11-02 11:00:02.000",
+            "host": "workstation7",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 1,
+            "username": "system",
+            "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "command_line": "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1",
+            "parent_image": "C:\\Windows\\CCM\\CcmExec.exe",
+            "parent_command_line": "C:\\Windows\\CCM\\CcmExec.exe",
+            "process_guid": "{s3-0002}",
+            "parent_process_guid": "{s2-0001}"
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "get_process_tree",
+      "arguments": {
+        "process_guid": "{s3-0002}"
+      },
+      "result": {
+        "process": {
+          "event_id": "E042481",
+          "ts": "2020-11-02 11:00:02.000",
+          "host": "workstation7",
+          "channel": "microsoft-windows-sysmon/operational",
+          "event_code": 1,
+          "username": "system",
+          "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "command_line": "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1",
+          "parent_image": "C:\\Windows\\CCM\\CcmExec.exe",
+          "parent_command_line": "C:\\Windows\\CCM\\CcmExec.exe",
+          "process_guid": "{s3-0002}",
+          "parent_process_guid": "{s2-0001}"
+        },
+        "ancestors": [],
+        "children": {
+          "total_matches": 0,
+          "returned": 0,
+          "truncated": false,
+          "events": []
+        },
+        "other_activity": {
+          "total_matches": 0,
+          "returned": 0,
+          "truncated": false,
+          "events": []
+        }
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "start": "2020-11-02 10:30:00",
+        "host": "workstation7",
+        "end": "2020-11-02 11:30:00",
+        "keyword": "CCM"
+      },
+      "result": {
+        "total_matches": 2,
+        "returned": 2,
+        "truncated": false,
+        "events": [
+          {
+            "event_id": "E042480",
+            "ts": "2020-11-02 11:00:01.000",
+            "host": "workstation7",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 11,
+            "image": "C:\\Windows\\CCM\\CcmExec.exe",
+            "process_guid": "{s2-0001}",
+            "target_filename": "C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1"
+          },
+          {
+            "event_id": "E042481",
+            "ts": "2020-11-02 11:00:02.000",
+            "host": "workstation7",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 1,
+            "username": "system",
+            "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "command_line": "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1",
+            "parent_image": "C:\\Windows\\CCM\\CcmExec.exe",
+            "parent_command_line": "C:\\Windows\\CCM\\CcmExec.exe",
+            "process_guid": "{s3-0002}",
+            "parent_process_guid": "{s2-0001}"
+          }
+        ]
+      },
+      "message": null
+    }
+  ],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-11-02 11:00:01.000",
+        "description": "SCCM client (CcmExec.exe) created the inventory script in C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1",
+        "event_ids": [
+          "E042480"
+        ]
+      },
+      {
+        "ts": "2020-11-02 11:00:02.000",
+        "description": "SCCM spawned PowerShell to execute the hardware inventory script with a hidden window",
+        "event_ids": [
+          "E042481"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "PowerShell execution was spawned by SCCM (CcmExec.exe) running a legitimate inventory script under C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1",
+        "event_ids": [
+          "E042480",
+          "E042481"
+        ]
+      }
+    ],
+    "next_actions": [
+      "None required as this is a false positive generated by Microsoft Endpoint Configuration Manager (SCCM)."
+    ],
+    "report_md": "## Incident Investigation Report: PowerShell Hidden Window Alert\n\n### Overview\n- **Alert:** R005-035ed10e (PowerShell hidden window or encoded command)\n- **Host:** workstation7\n- **Triggering Event ID:** E042481\n- **Verdict:** False Positive\n\n### Analysis\nThe alert triggered on event `E042481`, where `powershell.exe` executed with `-WindowStyle Hidden` and `-File C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1`. \nFurther investigation into parent processes and file activity (`E042480`) revealed that the parent process was `C:\\Windows\\CCM\\CcmExec.exe` (Microsoft Endpoint Configuration Manager / SCCM Client Service), which dropped and executed the hardware inventory script as part of normal systems management operations.\n\n### Conclusion\nThis is a benign administrative action by SCCM and a false positive for the detection rule."
+  },
+  "citations": {
+    "cited": 2,
+    "valid": 2,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 4,
+    "tool_calls": 3,
+    "input_tokens": 7730,
+    "output_tokens": 645,
+    "latency_s": 14.09
+  },
+  "error": null
+}

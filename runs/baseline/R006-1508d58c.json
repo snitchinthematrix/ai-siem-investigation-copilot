@@ -1,0 +1,52 @@
+{
+  "alert_id": "R006-1508d58c",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1003.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-10-18T23:50:05Z",
+        "description": "Memory dump file lsass-comsvcs.dmp created on workstation5",
+        "event_ids": [
+          "E000128"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "LSASS memory dump file was created using comsvcs.dll in the user's temp directory.",
+        "event_ids": [
+          "E000128"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation5",
+      "Reset credentials for the user wardog",
+      "Investigate source of execution and potential credential theft"
+    ],
+    "report_md": "# Incident Report: Memory Dump File Created (LSASS)\n\n**Verdict:** True Positive  \n**Severity:** High  \n**Techniques:** T1003.001 (OS Credential Dumping: LSASS Memory)\n\n## Summary\nAn alert was triggered on `workstation5` indicating the creation of a memory dump file targeting LSASS (`C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp`). This indicates an attempt to dump LSASS process memory to harvest credentials, typically via `comsvcs.dll` and `rundll32.exe`.\n\n## Timeline\n- **2020-10-18 23:50:05 (UTC):** Memory dump file `lsass-comsvcs.dmp` created on `workstation5` (Event: `E000128`).\n\n## Recommendations\n- Isolate `workstation5` from the network.\n- Investigate the parent process that spawned the LSASS dump.\n- Force a password reset for user `wardog` and any accounts whose credentials may have been exposed."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 665,
+    "output_tokens": 435,
+    "latency_s": 7.78
+  },
+  "error": null
+}

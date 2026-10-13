@@ -1,0 +1,48 @@
+{
+  "alert_id": "R002-8a0a4627",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "low",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-11-02 12:00:03",
+        "description": "Microsoft Teams Squirrel installer added an entry to the user Run registry key for automatic startup.",
+        "event_ids": [
+          "E042483"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Microsoft Teams installation/update mechanism modified the user Run registry key to ensure auto-start on login.",
+        "event_ids": [
+          "E042483"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Verify the integrity of the Microsoft Teams executable if needed, though this is a standard behavior for Squirrel-based installers."
+    ],
+    "report_md": "## Incident Report: Registry Run Key Modified\n\n**Verdict:** False Positive  \n**Severity:** Low  \n\n### Analysis\nThe alert triggered due to a modification of the user Run registry key (`HKU\\...\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\com.squirrel.Teams.Teams`) on `workstation7`. This registry path is routinely used by applications like Microsoft Teams (using the Squirrel installation framework) to configure automatic startup upon user logon. No malicious indicators or suspicious execution chains were associated with this event.\n\n### Timeline\n- **2020-11-02 12:00:03 (UTC):** Registry Run key modified by Microsoft Teams (`E042483`).\n\n### Conclusion\nThis is a benign activity reflecting normal software installation/configuration behavior.\n"
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 710,
+    "output_tokens": 346,
+    "latency_s": 2.25
+  },
+  "error": null
+}

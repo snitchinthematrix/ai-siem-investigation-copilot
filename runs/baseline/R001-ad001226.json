@@ -1,0 +1,48 @@
+{
+  "alert_id": "R001-ad001226",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-09-04 07:07:55",
+        "description": "csrss.exe accessed LSASS process memory on workstation5",
+        "event_ids": [
+          "E010204"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "LSASS process memory access triggered by legitimate system process csrss.exe on workstation5",
+        "event_ids": [
+          "E010204"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Verify if csrss.exe behavior is normal or part of standard Windows OS operations on workstation5."
+    ],
+    "report_md": "# Incident Report: LSASS Process Memory Access\n\n**Verdict:** False Positive  \n**Severity:** Informational  \n**Confidence:** 1.0  \n\n## Summary\nAn alert fired for LSASS process memory access on `workstation5` involving `C:\\windows\\system32\\csrss.exe` (Event `E010204`). `csrss.exe` is the Client/Server Runtime Subsystem, a legitimate and essential Windows system process that legitimately interacts with the Local Security Authority Subsystem Service (LSASS) during normal OS operations.\n\n## Timeline\n- **2020-09-04 07:07:55 (UTC):** `csrss.exe` accessed LSASS process memory on `workstation5` (`E010204`).\n\n## Techniques\n- None (False Positive / Expected OS Behavior)\n"
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 654,
+    "output_tokens": 355,
+    "latency_s": 2.15
+  },
+  "error": null
+}

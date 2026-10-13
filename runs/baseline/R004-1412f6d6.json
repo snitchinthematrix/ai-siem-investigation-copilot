@@ -1,0 +1,48 @@
+{
+  "alert_id": "R004-1412f6d6",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-11-02T10:00:05Z",
+        "description": "bitsadmin.exe downloads 7-Zip MSI package from SCCM server via BITS",
+        "event_ids": [
+          "E042477"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "BITS transfer job started using bitsadmin to download a legitimate SCCM package for 7zip on workstation7",
+        "event_ids": [
+          "E042477"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Monitor for any unusual subsequent execution of downloaded installer files if needed"
+    ],
+    "report_md": "### Incident Report: BITS Transfer Job Started (False Positive)\n\n- **Verdict:** False Positive\n- **Severity:** Informational\n- **Confidence:** 1.0\n- **MITRE ATT&CK Techniques:** []\n\n#### Timeline\n- **2020-11-02 10:00:05 UTC**: `bitsadmin.exe` started a BITS transfer job to download `7zip-19.00-x64.msi` from the internal SCCM server (`sccm01.theshire.local`) to the local CCM cache (`C:\\Windows\\ccmcache\\a1\\`) on `workstation7`.\n\n#### Summary\nThe alert was triggered by `bitsadmin.exe` downloading a software package (`7zip-19.00-x64.msi`) via BITS from the internal SCCM server (`sccm01.theshire.local`). This is standard software deployment activity by Microsoft Endpoint Configuration Manager (SCCM/CCM) and does not represent malicious behavior."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 715,
+    "output_tokens": 398,
+    "latency_s": 3.3
+  },
+  "error": null
+}

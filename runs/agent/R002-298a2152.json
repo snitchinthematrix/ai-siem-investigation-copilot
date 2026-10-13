@@ -1,0 +1,355 @@
+{
+  "alert_id": "R002-298a2152",
+  "mode": "agent",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "host": "workstation5",
+        "start": "2020-09-04 07:00:00",
+        "end": "2020-09-04 07:10:00"
+      },
+      "result": {
+        "total_matches": 33900,
+        "returned": 15,
+        "truncated": true,
+        "events": [
+          {
+            "event_id": "E000199",
+            "ts": "2020-09-04 07:06:10.934",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 12,
+            "image": "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "process_guid": "{3ddc5665-e699-5f51-4601-000000000400}",
+            "target_object": "HKU\\S-1-5-21-3125456671-949036322-3048627137-1104\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Connections"
+          },
+          {
+            "event_id": "E000203",
+            "ts": "2020-09-04 07:06:11.273",
+            "host": "workstation5",
+            "channel": "security",
+            "event_code": 5158
+          },
+          {
+            "event_id": "E000204",
+            "ts": "2020-09-04 07:06:11.273",
+            "host": "workstation5",
+            "channel": "security",
+            "event_code": 5156
+          },
+          {
+            "event_id": "E000205",
+            "ts": "2020-09-04 07:06:11.280",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000206",
+            "ts": "2020-09-04 07:06:11.280",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000207",
+            "ts": "2020-09-04 07:06:11.283",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000208",
+            "ts": "2020-09-04 07:06:11.284",
+            "host": "workstation5",
+            "channel": "microsoft-windows-powershell/operational",
+            "event_code": 4103
+          },
+          {
+            "event_id": "E000209",
+            "ts": "2020-09-04 07:06:11.284",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000210",
+            "ts": "2020-09-04 07:06:11.285",
+            "host": "workstation5",
+            "channel": "microsoft-windows-powershell/operational",
+            "event_code": 4103
+          },
+          {
+            "event_id": "E000211",
+            "ts": "2020-09-04 07:06:11.285",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000212",
+            "ts": "2020-09-04 07:06:11.286",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000213",
+            "ts": "2020-09-04 07:06:11.288",
+            "host": "workstation5",
+            "channel": "microsoft-windows-powershell/operational",
+            "event_code": 4103
+          },
+          {
+            "event_id": "E000214",
+            "ts": "2020-09-04 07:06:11.288",
+            "host": "workstation5",
+            "channel": "windows powershell",
+            "event_code": 800
+          },
+          {
+            "event_id": "E000215",
+            "ts": "2020-09-04 07:06:11.289",
+            "host": "workstation5",
+            "channel": "microsoft-windows-powershell/operational",
+            "event_code": 4103
+          },
+          {
+            "event_id": "E000216",
+            "ts": "2020-09-04 07:06:12.289",
+            "host": "workstation5",
+            "channel": "microsoft-windows-powershell/operational",
+            "event_code": 4103
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "host": "workstation5",
+        "start": "2020-09-04 07:05:00",
+        "end": "2020-09-04 07:07:00",
+        "keyword": "Run",
+        "event_code": 13
+      },
+      "result": {
+        "total_matches": 5,
+        "returned": 5,
+        "truncated": false,
+        "events": [
+          {
+            "event_id": "E000245",
+            "ts": "2020-09-04 07:06:21.311",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 13,
+            "image": "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "process_guid": "{3ddc5665-e699-5f51-4601-000000000400}",
+            "target_object": "HKU\\S-1-5-21-3125456671-949036322-3048627137-1104\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Updater",
+            "details": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -c \"$x=$((gp HKCU:Software\\Microsoft\\Windows\\CurrentVersion Debug).Debug);powershell -Win Hidden -enc $x\""
+          },
+          {
+            "event_id": "E002023",
+            "ts": "2020-09-04 07:06:22.957",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 13,
+            "image": "C:\\windows\\system32\\lsass.exe",
+            "process_guid": "{3ddc5665-d6f2-5f51-0c00-000000000400}",
+            "target_object": "HKLM\\System\\CurrentControlSet\\Services\\W32Time\\SecureTimeLimits\\RunTime\\SecureTimeTickCount",
+            "details": "QWORD (0x00000000-0x00408805)"
+          },
+          {
+            "event_id": "E002024",
+            "ts": "2020-09-04 07:06:22.957",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 13,
+            "image": "C:\\windows\\system32\\lsass.exe",
+            "process_guid": "{3ddc5665-d6f2-5f51-0c00-000000000400}",
+            "target_object": "HKLM\\System\\CurrentControlSet\\Services\\W32Time\\SecureTimeLimits\\RunTime\\SecureTimeConfidence",
+            "details": "DWORD (0x00000008)"
+          },
+          {
+            "event_id": "E002029",
+            "ts": "2020-09-04 07:06:22.957",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 13,
+            "image": "C:\\windows\\system32\\lsass.exe",
+            "process_guid": "{3ddc5665-d6f2-5f51-0c00-000000000400}",
+            "target_object": "HKLM\\System\\CurrentControlSet\\Services\\W32Time\\SecureTimeLimits\\RunTime\\SecureTimeTickCount",
+            "details": "QWORD (0x00000000-0x00408805)"
+          },
+          {
+            "event_id": "E002030",
+            "ts": "2020-09-04 07:06:22.957",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 13,
+            "image": "C:\\windows\\system32\\lsass.exe",
+            "process_guid": "{3ddc5665-d6f2-5f51-0c00-000000000400}",
+            "target_object": "HKLM\\System\\CurrentControlSet\\Services\\W32Time\\SecureTimeLimits\\RunTime\\SecureTimeConfidence",
+            "details": "DWORD (0x00000008)"
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "get_process_tree",
+      "arguments": {
+        "process_guid": "{3ddc5665-e699-5f51-4601-000000000400}"
+      },
+      "result": {
+        "error": "get_process_tree: no process creation event with process_guid '{3ddc5665-e699-5f51-4601-000000000400}'"
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "start": "2020-09-04 07:05:00",
+        "end": "2020-09-04 07:07:00",
+        "keyword": "powershell",
+        "event_code": 1,
+        "host": "workstation5"
+      },
+      "result": {
+        "total_matches": 0,
+        "returned": 0,
+        "truncated": false,
+        "events": []
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "end": "2020-09-04 07:07:00",
+        "host": "workstation5",
+        "start": "2020-09-04 07:00:00",
+        "keyword": "3ddc5665-e699-5f51-4601-000000000400"
+      },
+      "result": {
+        "total_matches": 0,
+        "returned": 0,
+        "truncated": false,
+        "events": []
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "event_code": 1,
+        "end": "2020-09-04 07:07:00",
+        "start": "2020-09-04 07:00:00",
+        "host": "workstation5"
+      },
+      "result": {
+        "total_matches": 0,
+        "returned": 0,
+        "truncated": false,
+        "events": []
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "lookup_attack_technique",
+      "arguments": {
+        "query": "Registry Run Keys / Startup Folder"
+      },
+      "result": {
+        "matches": [
+          {
+            "id": "T1547.001",
+            "name": "Registry Run Keys / Startup Folder",
+            "tactics": [
+              "persistence",
+              "privilege-escalation"
+            ],
+            "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in.(Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n\n* <code>HKEY_CURRENT_USER\\"
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "lookup_attack_technique",
+      "arguments": {
+        "query": "Obfuscated Files or Information"
+      },
+      "result": {
+        "matches": [
+          {
+            "id": "T1027",
+            "name": "Obfuscated Files or Information",
+            "tactics": [
+              "stealth"
+            ],
+            "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses. \n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and ["
+          }
+        ]
+      },
+      "message": null
+    }
+  ],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1547.001",
+      "T1027"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-09-04 07:06:21.311",
+        "description": "PowerShell modified the HKCU Run key 'Updater' to execute a hidden, encoded payload.",
+        "event_ids": [
+          "E000245"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "PowerShell modified the Registry Run key under HKCU to establish persistence using an encoded and hidden payload execution command pointing to an Updater value.",
+        "event_ids": [
+          "E000245"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation5 and inspect the encoded PowerShell payload found in the registry value HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Debug."
+    ],
+    "report_md": "An investigation of alert R002-298a2152 on host workstation5 revealed that PowerShell modified a Registry Run key (Event E000245) to establish persistence. Specifically, the registry value `HKU\\S-1-5-21-3125456671-949036322-3048627137-1104\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Updater` was set to launch a hidden, base64-encoded PowerShell command retrieved from another registry location (`HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Debug`). This technique provides persistence and obfuscation."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 9,
+    "tool_calls": 8,
+    "input_tokens": 34204,
+    "output_tokens": 872,
+    "latency_s": 11.19
+  },
+  "error": null
+}

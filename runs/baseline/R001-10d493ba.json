@@ -1,0 +1,54 @@
+{
+  "alert_id": "R001-10d493ba",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 0.8,
+    "severity": "high",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-09-04T07:06:22Z",
+        "description": "LSASS process memory access detected from svchost.exe",
+        "event_ids": [
+          "E001326",
+          "E001327",
+          "E003055",
+          "E003056"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "LSASS process memory access observed from svchost.exe on mordordc",
+        "event_ids": [
+          "E001326",
+          "E001327",
+          "E003055",
+          "E003056"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Investigate svchost.exe activity on mordordc to determine the cause of LSASS memory access"
+    ],
+    "report_md": "# Incident Report: LSASS Process Memory Access\n\n- **Host:** mordordc\n- **Rule:** LSASS process memory access\n- **Severity:** High\n- **Summary:** Access to LSASS process memory was detected originating from `C:\\windows\\system32\\svchost.exe`.\n- **Verdict:** True Positive (requires further investigation to rule out malicious credential dumping)."
+  },
+  "citations": {
+    "cited": 4,
+    "valid": 4,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 681,
+    "output_tokens": 309,
+    "latency_s": 1.97
+  },
+  "error": null
+}

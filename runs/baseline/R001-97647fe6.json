@@ -1,0 +1,59 @@
+{
+  "alert_id": "R001-97647fe6",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 0.8,
+    "severity": "high",
+    "techniques": [
+      "T1003.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-09-04T07:07:18Z",
+        "description": "LSASS process memory access detected on workstation5 by svchost.exe",
+        "event_ids": [
+          "E006236",
+          "E006237",
+          "E006779",
+          "E006858",
+          "E010658"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "LSASS process memory access by svchost.exe on workstation5",
+        "event_ids": [
+          "E006236",
+          "E006237",
+          "E006779",
+          "E006858",
+          "E010658"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Investigate the process activity of svchost.exe on workstation5",
+      "Check for potential credential dumping tools or techniques used on workstation5"
+    ],
+    "report_md": "### Incident Report: LSASS Process Memory Access\n\n**Verdict:** True Positive  \n**Severity:** High  \n**Host:** workstation5  \n**Techniques:** T1003.001 (OS Credential Dumping: LSASS Memory)\n\n#### Summary\nAn alert was triggered for LSASS process memory access on `workstation5` by `C:\\windows\\system32\\svchost.exe`. Such access to the Local Security Authority Subsystem Service (LSASS) memory is frequently associated with credential dumping techniques.\n\n#### Timeline\n- **2020-09-04 07:07:18 (UTC):** LSASS process memory access detected (`E006236`, `E006237`, `E006779`, `E006858`, `E010658`)."
+  },
+  "citations": {
+    "cited": 5,
+    "valid": 5,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 689,
+    "output_tokens": 460,
+    "latency_s": 2.03
+  },
+  "error": null
+}

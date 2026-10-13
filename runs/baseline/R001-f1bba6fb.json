@@ -1,0 +1,48 @@
+{
+  "alert_id": "R001-f1bba6fb",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-11-02 14:00:01",
+        "description": "Windows Defender (MsMpEng.exe) accessed LSASS memory on workstation7.",
+        "event_ids": [
+          "E042486"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Windows Defender (MsMpEng.exe) accessed LSASS process memory as part of its normal operation.",
+        "event_ids": [
+          "E042486"
+        ]
+      }
+    ],
+    "next_actions": [
+      "No further action required; false positive benign activity."
+    ],
+    "report_md": "### Incident Report: LSASS Process Memory Access\n\n- **Verdict:** False Positive\n- **Severity:** Informational\n- **Confidence:** 1.0\n- **Summary:** The alert was triggered by Windows Defender (`C:\\Program Files\\Windows Defender\\MsMpEng.exe`) accessing the LSASS process memory (`E042486`), which is expected legitimate security software behavior.\n- **Techniques:** []"
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 654,
+    "output_tokens": 254,
+    "latency_s": 1.58
+  },
+  "error": null
+}

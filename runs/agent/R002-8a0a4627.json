@@ -1,0 +1,176 @@
+{
+  "alert_id": "R002-8a0a4627",
+  "mode": "agent",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "start": "2020-11-02 11:30:00",
+        "end": "2020-11-02 12:30:00",
+        "host": "workstation7"
+      },
+      "result": {
+        "total_matches": 2,
+        "returned": 2,
+        "truncated": false,
+        "events": [
+          {
+            "event_id": "E042482",
+            "ts": "2020-11-02 12:00:01.000",
+            "host": "workstation7",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 1,
+            "username": "mbaggins",
+            "image": "C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe",
+            "command_line": "\"C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe\" --processStart Teams.exe",
+            "parent_image": "C:\\Windows\\explorer.exe",
+            "parent_command_line": "C:\\Windows\\explorer.exe",
+            "process_guid": "{s4-0002}",
+            "parent_process_guid": "{s4-0001}"
+          },
+          {
+            "event_id": "E042483",
+            "ts": "2020-11-02 12:00:03.000",
+            "host": "workstation7",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 13,
+            "image": "C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe",
+            "process_guid": "{s4-0002}",
+            "target_object": "HKU\\S-1-5-21-3125456671-949036322-3048627137-1110\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\com.squirrel.Teams.Teams",
+            "details": "C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe --processStart \"Teams.exe\" --process-start-args \"--system-initiated\""
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "get_process_tree",
+      "arguments": {
+        "process_guid": "{s4-0002}"
+      },
+      "result": {
+        "process": {
+          "event_id": "E042482",
+          "ts": "2020-11-02 12:00:01.000",
+          "host": "workstation7",
+          "channel": "microsoft-windows-sysmon/operational",
+          "event_code": 1,
+          "username": "mbaggins",
+          "image": "C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe",
+          "command_line": "\"C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe\" --processStart Teams.exe",
+          "parent_image": "C:\\Windows\\explorer.exe",
+          "parent_command_line": "C:\\Windows\\explorer.exe",
+          "process_guid": "{s4-0002}",
+          "parent_process_guid": "{s4-0001}"
+        },
+        "ancestors": [],
+        "children": {
+          "total_matches": 0,
+          "returned": 0,
+          "truncated": false,
+          "events": []
+        },
+        "other_activity": {
+          "total_matches": 1,
+          "returned": 1,
+          "truncated": false,
+          "events": [
+            {
+              "event_id": "E042483",
+              "ts": "2020-11-02 12:00:03.000",
+              "host": "workstation7",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe",
+              "process_guid": "{s4-0002}",
+              "target_object": "HKU\\S-1-5-21-3125456671-949036322-3048627137-1110\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\com.squirrel.Teams.Teams",
+              "details": "C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe --processStart \"Teams.exe\" --process-start-args \"--system-initiated\""
+            }
+          ]
+        }
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "lookup_attack_technique",
+      "arguments": {
+        "query": "Run Key"
+      },
+      "result": {
+        "matches": [
+          {
+            "id": "T1547.001",
+            "name": "Registry Run Keys / Startup Folder",
+            "tactics": [
+              "persistence",
+              "privilege-escalation"
+            ],
+            "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in.(Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n\n* <code>HKEY_CURRENT_USER\\"
+          }
+        ]
+      },
+      "message": null
+    }
+  ],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "low",
+    "techniques": [
+      "T1547.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-11-02 12:00:01.000",
+        "description": "Microsoft Teams Update.exe started by user mbaggins via explorer.exe",
+        "event_ids": [
+          "E042482"
+        ]
+      },
+      {
+        "ts": "2020-11-02 12:00:03.000",
+        "description": "Teams Update.exe added its Run registry key entry for user session persistence",
+        "event_ids": [
+          "E042483"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Microsoft Teams installer/updater (Update.exe) was executed by user mbaggins from its standard AppData location.",
+        "event_ids": [
+          "E042482"
+        ]
+      },
+      {
+        "claim": "Update.exe populated the standard Microsoft Teams user Run registry key for persistence on login.",
+        "event_ids": [
+          "E042483"
+        ]
+      }
+    ],
+    "next_actions": [
+      "No further action required as this is standard legitimate software behavior."
+    ],
+    "report_md": "# Investigation Report: Registry Run Key Modified (Microsoft Teams)\n\n## Summary\nAn alert was triggered on `workstation7` for the modification of a registry Run key (`HKU\\...\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\com.squirrel.Teams.Teams`) by `C:\\Users\\mbaggins\\AppData\\Local\\Microsoft\\Teams\\Update.exe` (Event E042483).\n\n## Analysis\n- **Process Execution**: `Update.exe` was launched by explorer.exe under the user account `mbaggins` (Event E042482).\n- **Behavior**: This is standard behavior for Microsoft Teams (packaged via Squirrel) upon startup or update, registering itself in the user's HKCU Run key to ensure it launches on subsequent user logons.\n- **Verdict**: False Positive.\n\n## Conclusion\nThe activity is fully benign and represents normal application installation/startup behavior by Microsoft Teams."
+  },
+  "citations": {
+    "cited": 2,
+    "valid": 2,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 4,
+    "tool_calls": 3,
+    "input_tokens": 8675,
+    "output_tokens": 595,
+    "latency_s": 5.02
+  },
+  "error": null
+}

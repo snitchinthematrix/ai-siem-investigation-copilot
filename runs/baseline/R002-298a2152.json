@@ -1,0 +1,51 @@
+{
+  "alert_id": "R002-298a2152",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "medium",
+    "techniques": [
+      "T1547.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-09-04 07:06:21",
+        "description": "Registry Run key modified on workstation5",
+        "event_ids": [
+          "E000245"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Registry Run key modified for persistence with target object HKU\\S-1-5-21-3125456671-949036322-3048627137-1104\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Updater",
+        "event_ids": [
+          "E000245"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Investigate the process that created the 'Updater' registry value under the Run key on workstation5",
+      "Check for associated malicious binaries or downloaded payloads"
+    ],
+    "report_md": "### Incident Report: Registry Run Key Modified\n\n- **Verdict:** True Positive\n- **Severity:** Medium\n- **Techniques:** T1547.001 (Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder)\n- **Summary:** An alert was triggered on `workstation5` indicating that a Registry Run key was modified (`HKU\\S-1-5-21-3125456671-949036322-3048627137-1104\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Updater`). This technique is commonly used by adversaries to establish persistence on compromised hosts by ensuring automatic execution upon user logon.\n- **Timeline:**\n  - 2020-09-04 07:06:21 (UTC): Registry Run key modified (`E000245`)."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 704,
+    "output_tokens": 437,
+    "latency_s": 2.35
+  },
+  "error": null
+}

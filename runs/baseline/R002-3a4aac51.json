@@ -1,0 +1,50 @@
+{
+  "alert_id": "R002-3a4aac51",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "medium",
+    "techniques": [
+      "T1547.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-09-04T07:08:01Z",
+        "description": "Registry Run key modified on workstation5",
+        "event_ids": [
+          "E014419"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Registry Run key HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\WindowsDefender was modified on workstation5",
+        "event_ids": [
+          "E014419"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Investigate workstation5 for persistence mechanisms and unauthorized modifications"
+    ],
+    "report_md": "### Incident Report: Registry Run Key Modified\n\n**Summary:**\nAn alert was triggered on `workstation5` indicating a modification to the Windows Registry Run key (`HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\WindowsDefender`), which is commonly used by malware for persistence.\n\n**Timeline:**\n- 2020-09-04 07:08:01 UTC: Registry Run key modified (`E014419`)\n\n**Verdict:** True Positive (Persistence via Registry Run Key)\n**Severity:** Medium\n**Techniques:** T1547.001 (Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder)"
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 658,
+    "output_tokens": 318,
+    "latency_s": 2.11
+  },
+  "error": null
+}

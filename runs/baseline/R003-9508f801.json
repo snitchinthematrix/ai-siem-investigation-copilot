@@ -1,0 +1,54 @@
+{
+  "alert_id": "R003-9508f801",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1053.005",
+      "T1027",
+      "T1059.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-09-21T07:15:45Z",
+        "description": "Scheduled task MordorSchtask created via schtasks.exe executing a hidden PowerShell base64 payload from registry.",
+        "event_ids": [
+          "E040898"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Scheduled task created via schtasks.exe to execute a hidden PowerShell base64-encoded payload daily.",
+        "event_ids": [
+          "E040898"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation5",
+      "Analyze registry key HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion debug",
+      "Decode and analyze the PowerShell payload"
+    ],
+    "report_md": "# Incident Report: Scheduled Task Created for Persistent Execution\n\n**Verdict:** True Positive  \n**Severity:** High  \n**Host:** workstation5  \n**Techniques:** T1053.005 (Scheduled Task), T1027 (Obfuscated Files or Information), T1086/T1059.001 (PowerShell)  \n\n### Summary\nAn alert was triggered on `workstation5` due to the creation of a scheduled task named `MordorSchtask` via `schtasks.exe`. The task is configured to run daily at 09:00 AM (`/SC DAILY /ST 09:00`), executing a hidden PowerShell command (`-NonI -W hidden -c`). The payload retrieves an obfuscated base64-encoded string stored in the registry (`HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion debug`), decodes it, and executes it via `IEX` (Invoke-Expression).\n\n### Timeline\n- **2020-09-21 07:15:45 (UTC):** Scheduled task `MordorSchtask` created with malicious persistence command via `schtasks.exe` (Event: `E040898`).\n\n### Recommended Actions\n1. Isolate `workstation5` from the network.\n2. Inspect the contents of the registry key `HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion debug`.\n3. Decode the base64 payload safely to determine the full scope of malicious activity."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 750,
+    "output_tokens": 552,
+    "latency_s": 2.16
+  },
+  "error": null
+}

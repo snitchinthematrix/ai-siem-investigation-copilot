@@ -2,7 +2,7 @@
 
 An AI agent that investigates a SIEM alert the way a SOC analyst would: it queries the logs, decides whether the alert is real, and cites the log events behind every claim.
 
-> Status: the code and data are complete and tested. The evaluation has not been run yet, so there are no results or recorded investigations in the repository, and the app is not deployed. See [What is left](#what-is-left).
+> Status: the code, data, evaluation results and recorded investigations are in the repository. The app is not deployed yet. See [What is left](#what-is-left).
 
 ## What it does
 
@@ -14,7 +14,42 @@ An AI agent that investigates a SIEM alert the way a SOC analyst would: it queri
 
 ## Results
 
-Not available yet. This section will hold the table printed by `python scripts/run_evals.py --table`, the model used, and the failure analysis.
+One run per alert on 2026-10-13 (UTC) with `gemini-3.5-flash-lite`. The table is the output of `python scripts/run_evals.py --table`; the per-alert scores are in `evals/results.json` and the full traces are in `runs/`.
+
+| Metric | Agent (with tools) | Baseline (alert only) |
+|---|---|---|
+| Alerts scored | 21/21 | 21/21 |
+| Verdict accuracy | 100% | 81% |
+| ATT&CK technique match (true positives) | 100% | 100% |
+| Valid citations | 100% | 100% |
+| Evidence claims without a citation | 0 | 0 |
+| Prompt-injection cases judged correctly | 2/2 | 2/2 |
+| Runs without a verdict | 0 | 0 |
+| Average tool calls | 5.7 | 0 |
+| Average tokens | 35804 | 1097.8 |
+| Average latency (s) | 14.8 | 2.8 |
+
+**How to read this.** The agent judged all 21 alerts correctly. On a set this small that mostly shows the set is not hard for this model; it is not evidence the agent is reliable in general. The useful comparison is with the baseline: given only the alert text, the same model called 4 of the 12 benign alerts attacks (`R001-97647fe6`, `R001-10d493ba`, `R002-3a4aac51`, `R003-bff45b6f`) and got every real attack right. The tools made the difference on false positives, which is where analyst time goes.
+
+**What the traces show beyond the score.**
+
+- Both prompt-injection alerts were judged true positive. The report for `R005-9d43bf3d` names the planted note and says it was disregarded; the report for `R003-15a5656f` reaches the right verdict without mentioning it.
+- Confidence is 1.0 on 19 of 21 verdicts, so it carries little information.
+- Most verdicts rest on a single evidence claim (16 of 21).
+- Four false-positive verdicts still list an ATT&CK technique for the activity the rule looks for. Technique match is only scored on true positives, so this does not show in the table.
+- Two benign alerts used 9 and 10 tool calls against a budget of 10 steps, so a harder case could run out of budget.
+
+No labels, prompts or code were changed after the run.
+
+## Model
+
+| | |
+|---|---|
+| Provider | Google Gemini API, free tier, through its OpenAI-compatible endpoint |
+| Model | `gemini-3.5-flash-lite` |
+| Limit observed | 15 requests per minute. The daily limit was not reached in 21 investigations plus 21 baseline calls. |
+
+Two other options were ruled out by free-tier limits, not by quality: `gemini-3.8-flash` allows 20 requests per day, and Groq's chat models allow at most 8,000 tokens per minute, less than one investigation step can need. The eval was paced with `--sleep 30` and resumed once after a provider 503.
 
 ## Architecture
 
@@ -68,6 +103,7 @@ public attack logs ──> normalize ──> DuckDB (events)
 - Six false-positive labels on the public captures are a judgment: the capture documents one simulated technique, and those alerts fire on ordinary system processes around it.
 - Windows data only, mostly Sysmon. Only nine extra raw fields are kept beyond the main columns.
 - Each alert is run once, so run-to-run variation is not measured.
+- The model is a small free-tier one, chosen by quota. Results with another model would differ.
 - This is not connected to a real SIEM and does not ingest live logs.
 
 ## Data and attribution
@@ -94,6 +130,5 @@ Recorded runs need no API key. For live runs and for the evaluation, set `LLM_BA
 
 ## What is left
 
-1. Choose a free-tier LLM provider with `scripts/smoke_llm.py` and record the model here.
-2. Run `scripts/run_evals.py` once, commit `runs/` and `evals/results.json`, and fill in Results and the failure analysis.
-3. Record a short demo GIF, deploy to Streamlit Community Cloud, and add the link.
+1. Record a short demo GIF.
+2. Deploy to Streamlit Community Cloud and add the link.

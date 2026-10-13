@@ -1,0 +1,50 @@
+{
+  "alert_id": "R003-bff45b6f",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "low",
+    "techniques": [
+      "T1053.005"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-11-02 09:00:40",
+        "description": "schtasks.exe executed to create scheduled task Contoso\\NightlyBackup for Veeam backup",
+        "event_ids": [
+          "E042476"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "A scheduled task named Contoso\\NightlyBackup was created using schtasks.exe to run the Veeam backup manager weekly as SYSTEM.",
+        "event_ids": [
+          "E042476"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Verify that the Veeam backup task is authorized and expected on workstation7."
+    ],
+    "report_md": "### Incident Report: Scheduled Task Created on Workstation7\n\n**Verdict:** True Positive (Authorized Administrative Activity / Benign)\n**Severity:** Medium\n**Techniques:** T1053.005 (Scheduled Task/Job: Scheduled Task)\n\n#### Summary\nAn alert was triggered on `workstation7` due to the creation of a scheduled task via the command line (`schtasks.exe`). Investigation of the command line shows the task `Contoso\\NightlyBackup` was created to run the Veeam Endpoint Backup manager (`C:\\Program Files\\Veeam\\Endpoint Backup\\Veeam.EndPoint.Manager.exe /backup`) on a weekly schedule (Sundays at 02:00) under the `SYSTEM` security context.\n\n#### Timeline\n- **2020-11-02 09:00:40 (UTC):** `schtasks.exe` executed to create the `Contoso\\NightlyBackup` scheduled task (Event ID: `E042476`).\n\n#### Conclusion\nThe scheduled task creation corresponds to legitimate backup software (Veeam) configuration. While the alert correctly identifies command-line scheduled task creation (a technique often used in persistence), the specific command points to standard administrative backup setup."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 706,
+    "output_tokens": 459,
+    "latency_s": 2.52
+  },
+  "error": null
+}

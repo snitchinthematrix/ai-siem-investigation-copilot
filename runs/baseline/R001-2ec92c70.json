@@ -1,0 +1,53 @@
+{
+  "alert_id": "R001-2ec92c70",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1003.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-10-18T23:50:05Z",
+        "description": "LSASS process memory access by rundll32.exe detected",
+        "event_ids": [
+          "E000129",
+          "E000141"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "rundll32.exe accessed LSASS process memory on workstation5",
+        "event_ids": [
+          "E000129",
+          "E000141"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation5",
+      "Investigate rundll32.exe execution source and command-line arguments"
+    ],
+    "report_md": "### Incident Report: LSASS Process Memory Access\n\n**Verdict:** True Positive  \n**Severity:** High  \n**MITRE ATT&CK Techniques:** T1003.001 (OS Credential Dumping: LSASS Memory)  \n\n#### Summary\nAn alert was triggered on `workstation5` indicating unauthorized or suspicious memory access to the Local Security Authority Subsystem Service (`lsass.exe`) by `C:\\Windows\\System32\\rundll32.exe`. Such access is a strong indicator of credential dumping attempts (e.g., via comsvcs.dll or similar techniques).\n\n#### Timeline\n- **2020-10-18 23:50:05 (UTC):** LSASS process memory access detected involving `rundll32.exe` (Event IDs: E000129, E000141).\n\n#### Recommended Actions\n1. Isolate `workstation5` from the network immediately.\n2. Review process command-line arguments and parent processes associated with `rundll32.exe`.\n3. Check for any dropped artifact files or subsequent lateral movement."
+  },
+  "citations": {
+    "cited": 2,
+    "valid": 2,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 664,
+    "output_tokens": 443,
+    "latency_s": 2.29
+  },
+  "error": null
+}

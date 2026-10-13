@@ -1,0 +1,48 @@
+{
+  "alert_id": "R005-035ed10e",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-11-02T11:00:02Z",
+        "description": "PowerShell execution of inventory-hardware.ps1 with hidden window style on workstation7",
+        "event_ids": [
+          "E042481"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "PowerShell script execution for hardware inventory via SCCM/CCM directory is a legitimate administrative activity.",
+        "event_ids": [
+          "E042481"
+        ]
+      }
+    ],
+    "next_actions": [
+      "No further action required."
+    ],
+    "report_md": "### Incident Report: PowerShell Hidden Window or Encoded Command (False Positive)\n\n- **Alert:** PowerShell hidden window or encoded command\n- **Host:** workstation7\n- **Verdict:** False Positive\n- **Severity:** Informational\n- **Summary:** The alert triggered due to PowerShell executing with `-WindowStyle Hidden` and `-ExecutionPolicy Bypass`. However, the command line points to a legitimate configuration management script located in the SCCM system directory (`C:\\Windows\\CCM\\SystemTemp\\inventory-hardware.ps1`). This is standard behavior for hardware inventory tasks managed by Microsoft Endpoint Configuration Manager (SCCM/CCM).\n- **Techniques:** None"
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 679,
+    "output_tokens": 296,
+    "latency_s": 1.65
+  },
+  "error": null
+}

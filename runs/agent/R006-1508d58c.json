@@ -1,0 +1,552 @@
+{
+  "alert_id": "R006-1508d58c",
+  "mode": "agent",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [
+    {
+      "kind": "tool_call",
+      "tool": "search_events",
+      "arguments": {
+        "end": "2020-10-19 00:30:00",
+        "keyword": "lsass",
+        "start": "2020-10-18 23:30:00",
+        "host": "workstation5"
+      },
+      "result": {
+        "total_matches": 5,
+        "returned": 5,
+        "truncated": false,
+        "events": [
+          {
+            "event_id": "E000100",
+            "ts": "2020-10-18 23:50:05.910",
+            "host": "workstation5",
+            "channel": "security",
+            "event_code": 4688,
+            "username": "wardog",
+            "image": "C:\\Windows\\System32\\rundll32.exe",
+            "command_line": "\"C:\\Windows\\System32\\rundll32.exe\" C:\\windows\\System32\\comsvcs.dll MiniDump 756 C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp full",
+            "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          },
+          {
+            "event_id": "E000101",
+            "ts": "2020-10-18 23:50:05.910",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 1,
+            "username": "wardog",
+            "image": "C:\\Windows\\System32\\rundll32.exe",
+            "command_line": "\"C:\\Windows\\System32\\rundll32.exe\" C:\\windows\\System32\\comsvcs.dll MiniDump 756 C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp full",
+            "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "parent_command_line": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe ",
+            "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+            "parent_process_guid": "{39e4a257-d445-5f8c-2c03-000000000700}",
+            "IntegrityLevel": "High"
+          },
+          {
+            "event_id": "E000128",
+            "ts": "2020-10-18 23:50:05.963",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 11,
+            "image": "C:\\Windows\\System32\\rundll32.exe",
+            "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+            "target_filename": "C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp"
+          },
+          {
+            "event_id": "E000129",
+            "ts": "2020-10-18 23:50:05.963",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 10,
+            "image": "C:\\Windows\\System32\\rundll32.exe",
+            "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+            "target_image": "C:\\windows\\system32\\lsass.exe",
+            "GrantedAccess": "0x1410"
+          },
+          {
+            "event_id": "E000141",
+            "ts": "2020-10-18 23:50:05.994",
+            "host": "workstation5",
+            "channel": "microsoft-windows-sysmon/operational",
+            "event_code": 10,
+            "image": "C:\\Windows\\System32\\rundll32.exe",
+            "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+            "target_image": "C:\\windows\\system32\\lsass.exe",
+            "GrantedAccess": "0x1fffff"
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "get_process_tree",
+      "arguments": {
+        "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+      },
+      "result": {
+        "process": {
+          "event_id": "E000101",
+          "ts": "2020-10-18 23:50:05.910",
+          "host": "workstation5",
+          "channel": "microsoft-windows-sysmon/operational",
+          "event_code": 1,
+          "username": "wardog",
+          "image": "C:\\Windows\\System32\\rundll32.exe",
+          "command_line": "\"C:\\Windows\\System32\\rundll32.exe\" C:\\windows\\System32\\comsvcs.dll MiniDump 756 C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp full",
+          "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "parent_command_line": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe ",
+          "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+          "parent_process_guid": "{39e4a257-d445-5f8c-2c03-000000000700}",
+          "IntegrityLevel": "High"
+        },
+        "ancestors": [],
+        "children": {
+          "total_matches": 0,
+          "returned": 0,
+          "truncated": false,
+          "events": []
+        },
+        "other_activity": {
+          "total_matches": 33,
+          "returned": 15,
+          "truncated": true,
+          "events": [
+            {
+              "event_id": "E000102",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000103",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000104",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000105",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000106",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000107",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000108",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000109",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000110",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000111",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000112",
+              "ts": "2020-10-18 23:50:05.916",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000118",
+              "ts": "2020-10-18 23:50:05.947",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000119",
+              "ts": "2020-10-18 23:50:05.947",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000120",
+              "ts": "2020-10-18 23:50:05.947",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            },
+            {
+              "event_id": "E000121",
+              "ts": "2020-10-18 23:50:05.947",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 7,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}"
+            }
+          ]
+        }
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "lookup_attack_technique",
+      "arguments": {
+        "query": "LSASS"
+      },
+      "result": {
+        "matches": [
+          {
+            "id": "T1003.001",
+            "name": "LSASS Memory",
+            "tactics": [
+              "credential-access"
+            ],
+            "description": "Adversaries may attempt to access credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). After a user logs on, the system generates and stores a variety of credential materials in LSASS process memory. These credential materials can be harvested by an administrative user or SYSTEM and used to conduct [Lateral Movement](https://attack.mitre.org/tactics/TA0008) using [Use Alternate Authentication Material](https://attack.mitre.org/techniques/T15"
+          },
+          {
+            "id": "T1547.008",
+            "name": "LSASS Driver",
+            "tactics": [
+              "persistence",
+              "privilege-escalation"
+            ],
+            "description": "Adversaries may modify or add LSASS drivers to obtain persistence on compromised systems. The Windows security subsystem is a set of components that manage and enforce the security policy for a computer or domain. The Local Security Authority (LSA) is the main component responsible for local security policy and user authentication. The LSA includes multiple dynamic link libraries (DLLs) associated with various other security functions, all of which run in the context of the LSA Subsystem Service"
+          }
+        ]
+      },
+      "message": null
+    },
+    {
+      "kind": "tool_call",
+      "tool": "get_entity_activity",
+      "arguments": {
+        "entity_type": "host",
+        "value": "workstation5",
+        "around": "2020-10-18 23:50:05",
+        "window_minutes": 15
+      },
+      "result": {
+        "window_start": "2020-10-18 23:35:05",
+        "window_end": "2020-10-19 00:05:05",
+        "event_counts": {
+          "10": 68,
+          "7": 30,
+          "12": 29,
+          "13": 15,
+          "4658": 10,
+          "4656": 5,
+          "4663": 5,
+          "4690": 5,
+          "5": 3,
+          "4689": 3,
+          "5156": 3,
+          "5158": 3,
+          "11": 2,
+          "1": 1,
+          "1102": 1,
+          "4688": 1
+        },
+        "notable_events": {
+          "total_matches": 18,
+          "returned": 15,
+          "truncated": true,
+          "events": [
+            {
+              "event_id": "E000101",
+              "ts": "2020-10-18 23:50:05.910",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 1,
+              "username": "wardog",
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "command_line": "\"C:\\Windows\\System32\\rundll32.exe\" C:\\windows\\System32\\comsvcs.dll MiniDump 756 C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp full",
+              "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+              "parent_command_line": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe ",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+              "parent_process_guid": "{39e4a257-d445-5f8c-2c03-000000000700}",
+              "IntegrityLevel": "High"
+            },
+            {
+              "event_id": "E000128",
+              "ts": "2020-10-18 23:50:05.963",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 11,
+              "image": "C:\\Windows\\System32\\rundll32.exe",
+              "process_guid": "{39e4a257-d4ad-5f8c-3303-000000000700}",
+              "target_filename": "C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp"
+            },
+            {
+              "event_id": "E000158",
+              "ts": "2020-10-18 23:50:06.229",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 11,
+              "image": "C:\\windows\\system32\\svchost.exe",
+              "process_guid": "{39e4a257-f133-5f8b-3100-000000000700}",
+              "target_filename": "C:\\Windows\\Prefetch\\RUNDLL32.EXE-B1101E56.pf"
+            },
+            {
+              "event_id": "E000009",
+              "ts": "2020-10-18 23:49:48.025",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\system32\\SearchProtocolHost.exe",
+              "process_guid": "{39e4a257-d422-5f8c-2703-000000000700}",
+              "target_object": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Notifications\\Data\\418A073AA3BC3475",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000016",
+              "ts": "2020-10-18 23:50:00.007",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\System32\\svchost.exe",
+              "process_guid": "{39e4a257-f137-5f8b-4c00-000000000700}",
+              "target_object": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\VFUProvider\\StartTime",
+              "details": "QWORD (0x01d6a5a9-0x64046265)"
+            },
+            {
+              "event_id": "E000031",
+              "ts": "2020-10-18 23:50:02.718",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\system32\\svchost.exe",
+              "process_guid": "{39e4a257-f1b4-5f8b-a900-000000000700}",
+              "target_object": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Notifications\\Data\\418A073AA3BC3475",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000037",
+              "ts": "2020-10-18 23:50:04.088",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count\\HRZR_PGYFRFFVBA",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000038",
+              "ts": "2020-10-18 23:50:04.088",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count\\{1NP14R77-02R7-4R5Q-O744-2RO1NR5198O7}\\JvaqbjfCbjreFuryy\\i1.0\\cbjrefuryy.rkr",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000039",
+              "ts": "2020-10-18 23:50:04.110",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\ActivityDataModel\\ReaderRevisionInfo\\A972977C-95EC-9F21-DCC4-595CA3A0E033",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000040",
+              "ts": "2020-10-18 23:50:04.110",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\ActivityDataModel\\ReaderRevisionInfo\\A972977C-95EC-9F21-DCC4-595CA3A0E033",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000049",
+              "ts": "2020-10-18 23:50:04.635",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FeatureUsage\\AppSwitched\\{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\WindowsPowerShell\\v1.0\\powershell.exe",
+              "details": "DWORD (0x00000060)"
+            },
+            {
+              "event_id": "E000061",
+              "ts": "2020-10-18 23:50:04.713",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SessionInfo\\2\\ApplicationViewManagement\\W32:00000000000E0432\\VirtualDesktop",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000164",
+              "ts": "2020-10-18 23:50:07.338",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count\\HRZR_PGYFRFFVBA",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000165",
+              "ts": "2020-10-18 23:50:07.338",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count\\{1NP14R77-02R7-4R5Q-O744-2RO1NR5198O7}\\JvaqbjfCbjreFuryy\\i1.0\\cbjrefuryy.rkr",
+              "details": "Binary Data"
+            },
+            {
+              "event_id": "E000174",
+              "ts": "2020-10-18 23:50:07.354",
+              "host": "workstation5",
+              "channel": "microsoft-windows-sysmon/operational",
+              "event_code": 13,
+              "image": "C:\\windows\\Explorer.EXE",
+              "process_guid": "{39e4a257-f1b3-5f8b-a700-000000000700}",
+              "target_object": "HKU\\S-1-5-21-3940915590-64593676-1414006259-500\\Software\\Microsoft\\Windows\\CurrentVersion\\ActivityDataModel\\ReaderRevisionInfo\\A972977C-95EC-9F21-DCC4-595CA3A0E033",
+              "details": "Binary Data"
+            }
+          ]
+        }
+      },
+      "message": null
+    }
+  ],
+  "verdict": {
+    "verdict": "true_positive",
+    "confidence": 1.0,
+    "severity": "high",
+    "techniques": [
+      "T1003.001",
+      "T1059.001"
+    ],
+    "timeline": [
+      {
+        "ts": "2020-10-18 23:50:05.910",
+        "description": "PowerShell spawned rundll32.exe loading comsvcs.dll to dump lsass memory",
+        "event_ids": [
+          "E000100",
+          "E000101"
+        ]
+      },
+      {
+        "ts": "2020-10-18 23:50:05.963",
+        "description": "Memory dump file created at C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp",
+        "event_ids": [
+          "E000128"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "PowerShell spawned rundll32.exe to dump LSASS memory using comsvcs.dll MiniDump to C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp",
+        "event_ids": [
+          "E000100",
+          "E000101",
+          "E000128",
+          "E000129",
+          "E000141"
+        ]
+      }
+    ],
+    "next_actions": [
+      "Isolate workstation5",
+      "Review user wardog sessions and account activity",
+      "Check for lateral movement or credential abuse originating from workstation5"
+    ],
+    "report_md": "An incident occurred on workstation5 where PowerShell spawned `rundll32.exe` to execute `comsvcs.dll`'s `MiniDump` export function against the Local Security Authority Subsystem Service (`lsass.exe`). This created a memory dump file at `C:\\Users\\wardog\\AppData\\Local\\Temp\\lsass-comsvcs.dmp`, which is a well-known technique used by adversaries to harvest credentials from process memory."
+  },
+  "citations": {
+    "cited": 5,
+    "valid": 5,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 5,
+    "tool_calls": 4,
+    "input_tokens": 23199,
+    "output_tokens": 665,
+    "latency_s": 36.38
+  },
+  "error": null
+}

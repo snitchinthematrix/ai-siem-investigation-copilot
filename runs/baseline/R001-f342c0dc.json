@@ -1,0 +1,48 @@
+{
+  "alert_id": "R001-f342c0dc",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-09-04T07:07:59Z",
+        "description": "services.exe accessed LSASS process memory",
+        "event_ids": [
+          "E013105"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "services.exe accessed LSASS process memory on workstation5",
+        "event_ids": [
+          "E013105"
+        ]
+      }
+    ],
+    "next_actions": [
+      "No further action required as services.exe is a legitimate Windows system process accessing LSASS."
+    ],
+    "report_md": "### Incident Report: LSASS Process Memory Access\n\n- **Verdict:** False Positive\n- **Severity:** Informational\n- **Confidence:** 1/1\n- **Techniques:** []\n\n#### Summary\nAn alert was triggered for LSASS process memory access on `workstation5`. The process initiating the memory access was `C:\\windows\\system32\\services.exe`, which is a legitimate Windows system component responsible for managing system services and routinely interacts with the Local Security Authority Subsystem Service (LSASS).\n\n#### Timeline\n- **2020-09-04 07:07:59 (UTC):** `services.exe` accessed LSASS memory (Event ID: `E013105`).\n\n#### Conclusion\nThe activity is benign administrative behavior by the operating system. No malicious compromise or credential dumping tool was detected."
+  },
+  "citations": {
+    "cited": 1,
+    "valid": 1,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 653,
+    "output_tokens": 337,
+    "latency_s": 2.25
+  },
+  "error": null
+}

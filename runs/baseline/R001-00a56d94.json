@@ -1,0 +1,50 @@
+{
+  "alert_id": "R001-00a56d94",
+  "mode": "baseline",
+  "model": "gemini-3.5-flash-lite",
+  "steps": [],
+  "verdict": {
+    "verdict": "false_positive",
+    "confidence": 1.0,
+    "severity": "informational",
+    "techniques": [],
+    "timeline": [
+      {
+        "ts": "2020-09-04T07:07:55Z",
+        "description": "wininit.exe accessed LSASS process memory on workstation5",
+        "event_ids": [
+          "E010203",
+          "E010205"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "Wininit.exe accessed LSASS process memory on workstation5 as part of normal Windows system initialization/operation.",
+        "event_ids": [
+          "E010203",
+          "E010205"
+        ]
+      }
+    ],
+    "next_actions": [
+      "None required as this is expected Windows behavior for wininit.exe."
+    ],
+    "report_md": "### Incident Report: LSASS Process Memory Access (False Positive)\n\n- **Verdict:** False Positive\n- **Severity:** Low (Informational)\n- **Techniques:** None\n- **Summary:** The alert triggered due to process memory access on LSASS (`E010203`, `E010205`). However, the accessing image is `C:\\windows\\system32\\wininit.exe`, which is a legitimate Windows system process responsible for starting the subsystem and handling normal initialization/operations, including legitimate interaction with LSASS. No malicious activity or unauthorized credential dumping tools were identified.\n- **Timeline:**\n  - 2020-09-04 07:07:55 (UTC): `wininit.exe` accessed LSASS process memory on `workstation5` (`E010203`, `E010205`)."
+  },
+  "citations": {
+    "cited": 2,
+    "valid": 2,
+    "not_retrieved": [],
+    "nonexistent": [],
+    "uncited_claims": 0
+  },
+  "usage": {
+    "llm_calls": 1,
+    "tool_calls": 0,
+    "input_tokens": 663,
+    "output_tokens": 380,
+    "latency_s": 2.23
+  },
+  "error": null
+}
