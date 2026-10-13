@@ -2,6 +2,8 @@
 
 An AI agent that investigates a SIEM alert the way a SOC analyst would: it queries the logs, decides whether the alert is real, and cites the log events behind every claim.
 
+![Replaying the LSASS dump investigation, then the Scorecard](docs/demo.gif)
+
 > Status: the code, data, evaluation results and recorded investigations are in the repository. The app is not deployed yet. See [What is left](#what-is-left).
 
 ## What it does
@@ -130,5 +132,4 @@ Recorded runs need no API key. For live runs and for the evaluation, set `LLM_BA
 
 ## What is left
 
-1. Record a short demo GIF.
-2. Deploy to Streamlit Community Cloud and add the link.
+Deploy to Streamlit Community Cloud and add the link.
