@@ -18,3 +18,11 @@ def test_scorecard_page_renders():
     page = AppTest.from_file(str(ROOT / "pages" / "1_Scorecard.py"), default_timeout=60).run()
     assert not page.exception
     assert page.title[0].value == "Scorecard"
+
+
+def test_every_alert_in_the_queue_can_be_told_apart(monkeypatch):
+    # Streamlit matches a radio selection by its label, so two alerts with one label are one option.
+    monkeypatch.setenv("REPLAY_DELAY", "0")
+    app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60).run()
+    options = app.sidebar.radio[0].options
+    assert len(set(options)) == len(options) == 21

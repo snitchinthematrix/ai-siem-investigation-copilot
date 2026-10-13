@@ -104,8 +104,9 @@ st.caption("An AI agent investigates a SIEM alert over Windows attack telemetry 
 
 with st.sidebar:
     st.header("Alert queue")
+    # The ID keeps labels unique: Streamlit matches a selection by label, so duplicates collapse into one.
     index = st.radio("Alert", range(len(alerts)), label_visibility="collapsed",
-                     format_func=lambda i: f"[{alerts[i].severity}] {alerts[i].title} · {alerts[i].host}")
+                     format_func=lambda i: f"[{alerts[i].severity}] {alerts[i].title} · {alerts[i].host} · {alerts[i].id}")
     live_available = llm is not None and live_runs_left > 0
     mode = st.radio("Run", [REPLAY, LIVE], disabled=not live_available)
     if llm is None:
