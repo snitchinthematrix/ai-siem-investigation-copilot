@@ -7,14 +7,12 @@ from statistics import median
 
 FALLBACK_TIME_FIELDS = ("@timestamp", "EventTime", "TimeCreated")
 
-# Raw fields that become columns, or are dropped (Message repeats every other field).
-CONSUMED = {
-    "Message", "Channel", "EventID", "Hostname", "UtcTime", *FALLBACK_TIME_FIELDS,
-    "User", "SubjectUserName", "Image", "NewProcessName", "SourceImage", "ProcessName",
-    "CommandLine", "ParentImage", "ParentProcessName", "ParentCommandLine",
-    "ProcessGuid", "SourceProcessGUID", "ParentProcessGuid", "TargetImage",
-    "TargetFilename", "TargetObject", "Details", "DestinationIp", "DestinationPort",
-}
+# Raw fields kept in the extra column. The captures carry about 350 others, mostly
+# log-shipping metadata, which would make the database too large to commit.
+KEPT_EXTRA = (
+    "GrantedAccess", "DestinationHostname", "IntegrityLevel", "SourceIp", "LogonId",
+    "TargetUserName", "TaskName", "ObjectName", "ScriptBlockText",
+)
 
 
 def parse_time(value) -> datetime | None:
@@ -102,7 +100,7 @@ def normalize_records(records: list[dict], dataset: str) -> tuple[list[dict], in
             "details": _first(record, "Details"),
             "dest_ip": _first(record, "DestinationIp"),
             "dest_port": _to_int(record.get("DestinationPort")),
-            "extra": json.dumps({k: v for k, v in record.items() if k not in CONSUMED}, default=str),
+            "extra": json.dumps({k: record[k] for k in KEPT_EXTRA if record.get(k) not in (None, "", "-")}, default=str),
         })
     rows.sort(key=lambda row: row["ts"])
     return rows, skipped

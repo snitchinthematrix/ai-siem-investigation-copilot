@@ -12,7 +12,7 @@ def test_sysmon_process_create_maps_fields():
         "Image": r"C:\Windows\System32\rundll32.exe", "CommandLine": "rundll32.exe comsvcs.dll MiniDump",
         "ParentImage": r"C:\Windows\System32\cmd.exe", "ParentCommandLine": "cmd.exe",
         "ProcessGuid": "{a}", "ParentProcessGuid": "{b}", "Message": "long duplicate text",
-        "IntegrityLevel": "High",
+        "IntegrityLevel": "High", "ProviderGuid": "{5770385F-C22A-43E0-BF4C-06F5698FFBD9}",
     }
     rows, skipped = normalize_records([record], "demo")
     row = rows[0]
@@ -25,6 +25,7 @@ def test_sysmon_process_create_maps_fields():
     assert '"IntegrityLevel": "High"' in row["extra"]
     assert "Message" not in row["extra"]
     assert "CommandLine" not in row["extra"]
+    assert "ProviderGuid" not in row["extra"]  # shipping metadata is not kept
 
 
 def test_host_channel_and_event_code_are_normalized():
