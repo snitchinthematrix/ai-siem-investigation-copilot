@@ -4,7 +4,9 @@ An AI agent that investigates a SIEM alert the way a SOC analyst would: it queri
 
 ![Opening an alert from the queue, replaying the investigation, checking a cited log event, then the Scorecard](docs/demo.gif)
 
-> Status: the code, data, evaluation results and recorded investigations are in the repository. The app is not deployed yet. See [What is left](#what-is-left).
+**Live demo: https://ai-siem-investigation-copilot-nwl4tqrykhmjwwyq7magki.streamlit.app/**
+
+No installation or API key needed. Recorded investigations always work; live runs depend on a free-tier quota and fall back to the recording when it runs out.
 
 ## What it does
 
@@ -132,7 +134,3 @@ Recorded runs need no API key. For live runs and for the evaluation, set `LLM_BA
 - Run the evaluation: `python scripts/run_evals.py`
 - Rebuild the data from source: `python scripts/build_data.py`
 - Run the tests: `python -m pytest`
-
-## What is left
-
-Deploy to Streamlit Community Cloud and add the link.
