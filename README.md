@@ -2,7 +2,7 @@
 
 An AI agent that investigates a SIEM alert the way a SOC analyst would: it queries the logs, decides whether the alert is real, and cites the log events behind every claim.
 
-![Replaying the LSASS dump investigation, then the Scorecard](docs/demo.gif)
+![Opening an alert from the queue, replaying the investigation, checking a cited log event, then the Scorecard](docs/demo.gif)
 
 > Status: the code, data, evaluation results and recorded investigations are in the repository. The app is not deployed yet. See [What is left](#what-is-left).
 
@@ -11,7 +11,7 @@ An AI agent that investigates a SIEM alert the way a SOC analyst would: it queri
 - **Alert queue.** Six deliberately broad detection rules run over Windows event logs and produce 21 alerts, a mix of real attacks and benign activity.
 - **Investigation agent.** For one alert, an LLM works through a tool-calling loop with four read-only tools: search events, walk a process tree, summarize what a host, user or IP did around a time, and look up a MITRE ATT&CK technique.
 - **Structured verdict.** True positive, false positive or needs more information, with confidence, severity, ATT&CK technique IDs, a timeline, evidence, next actions and a short incident report.
-- **Citation check.** Every event ID the verdict cites is checked: it must exist, and the agent must have retrieved it during that run. Anything else is flagged in the UI and counted in the scorecard.
+- **Citation check.** Every event ID the verdict cites is checked: it must exist, and the agent must have retrieved it during that run. Anything else is flagged in the UI and counted in the scorecard. Each cited ID opens the log event itself.
 - **Scorecard.** Accuracy on the 21 labeled alerts, next to the same model given only the alert text and no tools.
 
 ## Results
@@ -84,7 +84,10 @@ public attack logs ──> normalize ──> DuckDB (events)
 | `scripts/build_data.py` | Download the captures and build `data/` |
 | `scripts/smoke_llm.py` | Check a provider supports what the agent needs |
 | `scripts/run_evals.py` | Run agent and baseline over the labeled alerts |
-| `app.py`, `pages/1_Scorecard.py` | Streamlit UI |
+| `copilot/view.py` | Shapes data for the UI (queue rows, filters, step summaries) |
+| `app.py` | Streamlit entry point and navigation |
+| `views/investigate.py`, `views/scorecard.py` | The two pages |
+| `.streamlit/config.toml` | Theme |
 
 ## Design decisions
 

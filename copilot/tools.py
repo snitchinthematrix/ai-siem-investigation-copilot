@@ -143,6 +143,12 @@ def get_entity_activity(conn, entity_type, value, around, window_minutes=10) -> 
     }
 
 
+def get_event(conn, event_id) -> dict | None:
+    """One event by ID, for the UI. Not offered to the model."""
+    events = _select(conn, "event_id = ?", [str(event_id)], 1)["events"]
+    return events[0] if events else None
+
+
 def collect_event_ids(value) -> set[str]:
     """Every event_id that appears anywhere in a tool result."""
     if isinstance(value, dict):
